@@ -205,7 +205,6 @@ input[type="range"]::-moz-range-thumb {
     background-color: rgba(0, 0, 0, 0.6);
     
     /* Center the content */
-    display: flex;
     align-items: center;
     justify-content: center;
     padding: 1rem;
