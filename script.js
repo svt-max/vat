@@ -62,7 +62,9 @@ const state = {
     appData: {
         currentOnboardingFlow: 'freelancer', // 'freelancer' or 'company'
         cultureQuestions: [], // TDL Culture Test questions
-        currentCultureCategoryIndex: 0
+        currentCultureCategoryIndex: 0,
+        // NEW: To store the path from Section 9.1
+        onboardingPath: null // 'discover', 'grow', or 'find-fit'
     },
 
     previousView: 'role-selection-view' // To store where to go back to
@@ -141,6 +143,9 @@ const MOCK_API = {
             mentors: [{ id: 101, name: "Dr. Elena Rodriguez", title: "Principal UX Designer", fitScore: 95.8 }, { id: 102, name: "Marcus Cole", title: "Senior Strategist", fitScore: 88.2 }],
             mentees: [{ id: 201, name: "Jia Li", title: "Junior Product Designer", fitScore: 91.5 }, { id: 202, name: "Sam O'Connell", title: "Aspiring Strategist", fitScore: 84.0 }]
         };
+        // NOTE: The PDF specifies a call to GET /api/headless/culture/results/:subjectId
+        // The MOCK_API doesn't have this, but getInsightsAndMatches() serves
+        // as the "get all results" function for this demo.
         return { success: true, data: { personalityResults: personalityData, matches: matchData } };
     },
     // Simulated POST for company login
@@ -313,6 +318,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const roleCompanyButton = document.getElementById('role-company');
     const backToRoleButtons = document.querySelectorAll('.back-to-role'); // Back to role select
     
+    // --- NEW: Onboarding Flow (PDF Section 9.1) Elements ---
+    const welcomeView = document.getElementById('welcome-view');
+    const startFitDiscoveryBtn = document.getElementById('start-fit-discovery-btn');
+    const definePathView = document.getElementById('define-path-view');
+    const pathButtons = document.querySelectorAll('.path-btn'); // C-findAll
+    // --- End NEW Onboarding Elements ---
 
     // Company Flow Elements
     const companyLoginForm = document.getElementById('company-login-form');
@@ -422,6 +433,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
     const skipFeedbackBtn = document.getElementById('skip-feedback-btn');
 
+    // --- NEW: Project Health Check-in Elements ---
+    const projectHealthModal = document.getElementById('project-health-modal');
+    const projectHealthForm = document.getElementById('project-health-form');
+    const healthCheckRatingButtons = document.getElementById('health-check-rating-buttons');
+    const healthCheckFitRatingInput = document.getElementById('health-check-fit-rating');
+    const skipHealthCheckBtn = document.getElementById('skip-health-check-btn');
+
     // --- NEW: Scroll Animation Logic ---
     const fadeInElements = document.querySelectorAll('.fade-in');
     
@@ -514,9 +532,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         views.forEach(view => {
             if (view.id === viewId) {
-                view.style.display = (view.id.includes('loading')) ? 'flex' : 'block';
+                // MODAL FIX: The health check modal is a special case
+                if (view.id === 'project-health-modal') {
+                    view.style.display = 'flex'; // Use flex for overlay
+                } else {
+                    view.style.display = (view.id.includes('loading')) ? 'flex' : 'block';
+                }
             } else {
-                view.style.display = 'none';
+                if (view.id !== 'project-health-modal') {
+                     view.style.display = 'none';
+                }
             }
         });
         state.currentView = viewId;
@@ -537,6 +562,13 @@ document.addEventListener('DOMContentLoaded', () => {
     roleFreelancerButton.addEventListener('click', () => handleRoleSelection('freelancer'));
     roleCompanyButton.addEventListener('click', () => handleRoleSelection('company'));
     backToRoleButtons.forEach(btn => btn.addEventListener('click', () => changeView('role-selection-view')));
+
+    // --- NEW: PDF Section 9.1 Onboarding Listeners ---
+    startFitDiscoveryBtn.addEventListener('click', () => changeView('define-path-view'));
+    pathButtons.forEach(button => {
+        button.addEventListener('click', handlePathSelection);
+    });
+    // --- End NEW Onboarding Listeners ---
 
     // Company Flow Listeners
     companyLoginForm.addEventListener('submit', handleCompanyLogin);
@@ -579,8 +611,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Insights & Results Listeners
     seeMatchesButton.addEventListener('click', () => {
-        renderResults();
-        changeView('results-view');
+        // MODIFICATION: Go to Dashboard instead of old results view
+        // The PDF flow implies the user lands on a report, then a dashboard.
+        // The existing code has a dashboard. Let's use that.
+        // renderResults();
+        // changeView('results-view');
+        
+        // Let's check the onboarding path.
+        if (state.appData.onboardingPath === 'discover') {
+             // If they only wanted a report, they don't have a dashboard.
+             // Send them to the main matches list.
+             renderResults();
+             changeView('results-view');
+        } else {
+             // If they are a mentor/mentee, send to dashboard.
+             renderFreelancerDashboard();
+             changeView('dashboard-view');
+        }
     });
     viewInsightsButton.addEventListener('click', () => changeView('insights-view'));
 
@@ -617,11 +664,17 @@ document.addEventListener('DOMContentLoaded', () => {
         renderResults();
         changeView('results-view');
     });
-    dashboardViewInsightsBtn.addEventListener('click', () => changeView('insights-view'));
-    dashboardPostChallengeBtn.addEventListener('click', () => changeView('project-create-view'));
+    dashboardViewInsightsBtn.addEventListener('click', () => {
+        renderInsightsReport();
+        changeView('insights-view');
+    });
+    dashboardPostChallengeBtn.addEventListener('click', () => {
+        showWizardStep(1); // Reset wizard to step 1
+        changeView('project-create-view');
+    });
     dashboardEditCultureBtn.addEventListener('click', handleCompanyCultureStart); // Re-take test
     backToDashboardBtn.addEventListener('click', () => changeView('dashboard-view'));
-projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'));
+    projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'));
 
     // View 17: PM Workspace
     chatForm.addEventListener('submit', handleChatSubmit);
@@ -631,7 +684,6 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
 
     // View 19: Mentor Feedback
     mentorFeedbackForm.addEventListener('submit', handleFeedbackSubmit);
-// ... (rest of your listeners) ...
     skipFeedbackBtn.addEventListener('click', () => changeView('dashboard-view'));
 
     // View 20: Project Health Check-in
@@ -678,7 +730,10 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
         
         // Reset app data
         state.appData = {
-            currentOnboardingFlow: 'freelancer', cultureQuestions: [], currentCultureCategoryIndex: 0
+            currentOnboardingFlow: 'freelancer', 
+            cultureQuestions: [], 
+            currentCultureCategoryIndex: 0,
+            onboardingPath: null // NEW: Reset path
         };
 
         // Clear forms
@@ -700,15 +755,27 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
     // Handle Role Selection
     function handleRoleSelection(role) {
         if (role === 'freelancer') {
-            changeView('register-view');
+            // MODIFICATION: Start PDF Section 9.1 Flow
+            changeView('welcome-view');
         } else if (role === 'company') {
             changeView('company-login-view');
         }
     }
 
-    // --- Freelancer Onboarding Flow ---
+    // --- Freelancer Onboarding Flow (MODIFIED for PDF Section 9.1) ---
 
-    // Step 1: Handle User Registration
+    // NEW: Step 1: Handle Path Selection
+    function handlePathSelection(e) {
+        // Get the path from the button's data attribute
+        const path = e.currentTarget.dataset.path;
+        state.appData.onboardingPath = path;
+        console.log("Onboarding path selected:", path);
+        
+        // All paths lead to registration next
+        changeView('register-view');
+    }
+
+    // Step 2: Handle User Registration (MODIFIED)
     async function handleRegistration(e) {
         e.preventDefault();
         changeView('loading-view');
@@ -719,60 +786,84 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
         const response = await MOCK_API.createUser(name, email);
         if (response.success) {
             state.user = { ...state.user, ...response.data };
-            // START of new onboarding flow
-            changeView('mentor-mentee-select-view');
+            
+            // MODIFICATION: Start Personality Test first, per PDF flow 
+            await loadAssessment();
         } else {
             alert("Registration failed. Please try again.");
             changeView('register-view');
         }
     }
+    
+    // Step 3: Load Personality Assessment (Original function, now Step 3)
+    async function loadAssessment() {
+        // This is now step 3 of onboarding
+        const [questionsRes, scalesRes] = await Promise.all([
+            MOCK_API.getQuestions(),
+            MOCK_API.getScales()
+        ]);
 
-    // Step 2: Handle Mentor/Mentee Selection
-    function handleMentorSelect(role) {
-        state.user.onboarding.mentorOrMentee = role;
-        if (role === 'mentee') {
-            changeView('mentee-goals-view');
-        } else if (role === 'mentor') {
-            changeView('mentor-focus-view');
-        } else if (role === 'both') {
-            changeView('mentee-goals-view'); // Start with mentee goals first
-        }
-    }
-
-    // Step 3: Handle Mentee Goals
-    function handleMenteeGoalsSubmit(e) {
-        e.preventDefault();
-        const goals = Array.from(menteeGoalsForm.querySelectorAll('input[name="mentee-goal"]:checked'))
-                           .map(cb => cb.value);
-        state.user.onboarding.menteeGoals = goals;
-        
-        if (state.user.onboarding.mentorOrMentee === 'both') {
-            changeView('mentor-focus-view'); // Go to mentor form next
+        if (questionsRes.success && scalesRes.success) {
+            state.questions = questionsRes.data;
+            state.scales = scalesRes.data;
+            state.currentQuestionIndex = 0;
+            state.answers = [];
+            renderQuestion();
+            changeView('assessment-view');
         } else {
-            changeView('logistics-availability-view'); // Skip to logistics
+            alert("Failed to load personality assessment. Please try again.");
+            changeView(state.previousView);
         }
     }
 
-    // Step 4: Handle Mentor Focus
-    function handleMentorFocusSubmit(e) {
-        e.preventDefault();
-        const focus = Array.from(mentorFocusForm.querySelectorAll('input[name="mentor-focus"]:checked'))
-                           .map(cb => cb.value);
-        state.user.onboarding.mentorFocus = focus;
-        changeView('logistics-availability-view'); // Go to logistics
+    // Step 4: Render Personality Question (Original function)
+    function renderQuestion() {
+        const question = state.questions[state.currentQuestionIndex];
+        questionText.textContent = question.text;
+        const progress = ((state.currentQuestionIndex + 1) / state.questions.length) * 100;
+        progressText.textContent = `Question ${state.currentQuestionIndex + 1} of ${state.questions.length}`;
+        progressBar.style.width = `${progress}%`;
+        scalesContainer.innerHTML = '';
+        state.scales.forEach(scale => {
+            const label = document.createElement('label');
+            label.className = "flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition";
+            label.innerHTML = `
+                <input type="radio" name="answer" value="${scale.id}" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                <span class="ml-4 text-gray-700 text-lg">${scale.title}</span>
+            `;
+            scalesContainer.appendChild(label);
+        });
+        nextButton.textContent = (state.currentQuestionIndex === state.questions.length - 1) ? "Submit & Continue" : "Next";
     }
 
-    // Step 5: Handle Logistics
-    function handleLogisticsSubmit(e) {
+    // Step 5: Handle Personality Answer Submission (MODIFIED)
+    async function handleAnswerSubmit(e) {
         e.preventDefault();
-        const availability = logisticsForm.querySelector('input[name="availability"]:checked').value;
-        const formats = Array.from(logisticsForm.querySelectorAll('input[name="format"]:checked'))
-                               .map(cb => cb.value);
-        state.user.onboarding.availability = availability;
-        state.user.onboarding.formats = formats;
+        const selected = document.querySelector('input[name="answer"]:checked');
+        
+        if (!selected) {
+            answerError.style.display = 'block';
+            return;
+        }
+        answerError.style.display = 'none';
 
-        // Mentorship onboarding complete. Start Work Values (Culture) onboarding.
-        loadCultureAssessment('freelancer');
+        state.answers.push({
+            question_id: state.questions[state.currentQuestionIndex].id,
+            scale_id: parseInt(selected.value)
+        });
+
+        if (state.currentQuestionIndex < state.questions.length - 1) {
+            state.currentQuestionIndex++;
+            renderQuestion();
+        } else {
+            // Personality test finished.
+            changeView('loading-view');
+            // Send answers
+            await MOCK_API.sendAnswers(state.user.id, state.answers);
+            
+            // MODIFICATION: Go to Culture Test next, per PDF flow 
+            await loadCultureAssessment('freelancer');
+        }
     }
 
     // Step 6: Load Work Values (Culture) Assessment (Shared Function)
@@ -843,7 +934,7 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
         }
     }
 
-    // Step 8: Handle Work Values (Culture) Submission
+    // Step 8: Handle Work Values (Culture) Submission (MODIFIED)
     async function handleWvaSubmit(e) {
         e.preventDefault();
         
@@ -872,10 +963,20 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
             changeView('loading-view');
             
             if (state.appData.currentOnboardingFlow === 'freelancer') {
-                // Freelancer flow: send answers, then start *personality* test
+                // Freelancer flow: send answers
                 await MOCK_API.sendCultureAnswers(state.user.id, state.user.onboarding.cultureAnswers);
-                console.log("Freelancer culture test complete. Starting personality test.");
-                await loadAssessment(); // This is the original personality test
+                
+                // MODIFICATION: Check path, per PDF flow [cite: 473, 479]
+                if (state.appData.onboardingPath === 'discover') {
+                    // Path 1: "Discover Myself" - Skip mentorship questions
+                    console.log("Culture test complete. Path is 'discover'. Finishing onboarding.");
+                    await completeFreelancerOnboarding();
+                } else {
+                    // Path 2/3: "Grow" or "Find Fit" - Go to mentorship questions
+                    console.log("Culture test complete. Path is 'grow' or 'find-fit'. Starting mentorship questions.");
+                    changeView('mentor-mentee-select-view');
+                }
+
             } else {
                 // Company flow: send answers, then go to dashboard
                 for (const cat of state.company.cultureAnswers) {
@@ -888,83 +989,78 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
         }
     }
 
-
-    // Step 9: Load Personality Assessment (Original function)
-    async function loadAssessment() {
-        // This is now step 9 of onboarding
-        const [questionsRes, scalesRes] = await Promise.all([
-            MOCK_API.getQuestions(),
-            MOCK_API.getScales()
-        ]);
-
-        if (questionsRes.success && scalesRes.success) {
-            state.questions = questionsRes.data;
-            state.scales = scalesRes.data;
-            state.currentQuestionIndex = 0;
-            state.answers = [];
-            renderQuestion();
-            changeView('assessment-view');
-        } else {
-            alert("Failed to load personality assessment. Please try again.");
-            changeView(state.previousView);
+    // Step 9: Handle Mentor/Mentee Selection
+    function handleMentorSelect(role) {
+        state.user.onboarding.mentorOrMentee = role;
+        if (role === 'mentee') {
+            changeView('mentee-goals-view');
+        } else if (role === 'mentor') {
+            changeView('mentor-focus-view');
+        } else if (role === 'both') {
+            changeView('mentee-goals-view'); // Start with mentee goals first
         }
     }
 
-    // Step 10: Render Personality Question (Original function)
-    function renderQuestion() {
-        const question = state.questions[state.currentQuestionIndex];
-        questionText.textContent = question.text;
-        const progress = ((state.currentQuestionIndex + 1) / state.questions.length) * 100;
-        progressText.textContent = `Question ${state.currentQuestionIndex + 1} of ${state.questions.length}`;
-        progressBar.style.width = `${progress}%`;
-        scalesContainer.innerHTML = '';
-        state.scales.forEach(scale => {
-            const label = document.createElement('label');
-            label.className = "flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition";
-            label.innerHTML = `
-                <input type="radio" name="answer" value="${scale.id}" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
-                <span class="ml-4 text-gray-700 text-lg">${scale.title}</span>
-            `;
-            scalesContainer.appendChild(label);
-        });
-        nextButton.textContent = (state.currentQuestionIndex === state.questions.length - 1) ? "Submit & See Results" : "Next";
-    }
-
-    // Step 11: Handle Personality Answer Submission (Original function, MODIFIED)
-    async function handleAnswerSubmit(e) {
+    // Step 10: Handle Mentee Goals
+    function handleMenteeGoalsSubmit(e) {
         e.preventDefault();
-        const selected = document.querySelector('input[name="answer"]:checked');
+        const goals = Array.from(menteeGoalsForm.querySelectorAll('input[name="mentee-goal"]:checked'))
+                           .map(cb => cb.value);
+        state.user.onboarding.menteeGoals = goals;
         
-        if (!selected) {
-            answerError.style.display = 'block';
-            return;
-        }
-        answerError.style.display = 'none';
-
-        state.answers.push({
-            question_id: state.questions[state.currentQuestionIndex].id,
-            scale_id: parseInt(selected.value)
-        });
-
-        if (state.currentQuestionIndex < state.questions.length - 1) {
-            state.currentQuestionIndex++;
-            renderQuestion();
+        if (state.user.onboarding.mentorOrMentee === 'both') {
+            changeView('mentor-focus-view'); // Go to mentor form next
         } else {
-            // *** ENTIRE ONBOARDING IS FINISHED ***
-            changeView('loading-view');
-            await MOCK_API.sendAnswers(state.user.id, state.answers);
-            const insightsRes = await MOCK_API.getInsightsAndMatches(state.user.id);
-            if (insightsRes.success) {
-                state.matches = insightsRes.data.matches;
-                state.personalityResults = insightsRes.data.personalityResults;
-                
-                // NEW: Go to Dashboard instead of Insights
-                renderFreelancerDashboard();
-                changeView('dashboard-view');
-            } else {
-                alert("Failed to get results.");
-                changeView('assessment-view');
-            }
+            changeView('logistics-availability-view'); // Skip to logistics
+        }
+    }
+
+    // Step 11: Handle Mentor Focus
+    function handleMentorFocusSubmit(e) {
+        e.preventDefault();
+        const focus = Array.from(mentorFocusForm.querySelectorAll('input[name="mentor-focus"]:checked'))
+                           .map(cb => cb.value);
+        state.user.onboarding.mentorFocus = focus;
+        changeView('logistics-availability-view'); // Go to logistics
+    }
+
+    // Step 12: Handle Logistics (MODIFIED)
+    async function handleLogisticsSubmit(e) {
+        e.preventDefault();
+        const availability = logisticsForm.querySelector('input[name="availability"]:checked').value;
+        const formats = Array.from(logisticsForm.querySelectorAll('input[name="format"]:checked'))
+                               .map(cb => cb.value);
+        state.user.onboarding.availability = availability;
+        state.user.onboarding.formats = formats;
+
+        // Mentorship onboarding complete.
+        // MODIFICATION: This is now the FINAL step for 'grow'/'find-fit' paths.
+        console.log("Mentorship questions complete. Finishing onboarding.");
+        await completeFreelancerOnboarding();
+    }
+
+    // NEW: Step 13: Complete Onboarding & Show Report
+    async function completeFreelancerOnboarding() {
+        changeView('loading-view');
+        
+        // In a real app, you might send the mentorship data (state.user.onboarding)
+        // to your backend here.
+        // console.log("Sending final onboarding data:", state.user.onboarding);
+        
+        // Now, fetch the results to show the report, as per PDF flow 
+        const insightsRes = await MOCK_API.getInsightsAndMatches(state.user.id);
+        
+        if (insightsRes.success) {
+            state.matches = insightsRes.data.matches;
+            state.personalityResults = insightsRes.data.personalityResults;
+            
+            // NEW: Go to Insights Report (Screen 4)
+            renderInsightsReport();
+            changeView('insights-view');
+        } else {
+            alert("Failed to get results.");
+            // Go back to the last view
+            changeView(state.previousView); 
         }
     }
 
@@ -977,48 +1073,57 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
         freelancerWelcome.textContent = `Welcome, ${state.user.name}!`;
         
         // Mock render dashboard lists (in a real app, you'd fetch this)
-// --- NEW Mentee List Render ---
+        // --- NEW Mentee List Render ---
         myMenteesList.innerHTML = ''; // Clear it
-        state.matches.mentees.forEach(mentee => {
-           const li = document.createElement('li');
-            li.innerHTML = `
-                <button data-name="${mentee.name}" class="comparison-button match-card">
-                    <div class="match-card-icon person">${personIcon}</div>
-                    <div class="match-card-content">
-                        <p class="match-card-title">${mentee.name}</p>
-                        <p class="match-card-subtitle">${mentee.title}</p>
-                    </div>
-                    <div class="match-card-score">
-                        <span class="score-value">${mentee.fitScore.toFixed(1)}%</span>
-                        <span class="score-label">Fit Score</span>
-                    </div>
-                </button>`;
-            myMenteesList.appendChild(li);
-        });
-        // Re-add event listeners for these new buttons
-        myMenteesList.querySelectorAll('.comparison-button').forEach(button => {
-            button.addEventListener('click', () => handleShowComparison(button.dataset.name));
-        });
+        if (state.matches.mentees && state.matches.mentees.length > 0) {
+            state.matches.mentees.forEach(mentee => {
+               const li = document.createElement('li');
+                li.innerHTML = `
+                    <button data-name="${mentee.name}" class="comparison-button match-card">
+                        <div class="match-card-icon person">${personIcon}</div>
+                        <div class="match-card-content">
+                            <p class="match-card-title">${mentee.name}</p>
+                            <p class="match-card-subtitle">${mentee.title}</p>
+                        </div>
+                        <div class="match-card-score">
+                            <span class="score-value">${mentee.fitScore.toFixed(1)}%</span>
+                            <span class="score-label">Fit Score</span>
+                        </div>
+                    </button>`;
+                myMenteesList.appendChild(li);
+            });
+            // Re-add event listeners for these new buttons
+            myMenteesList.querySelectorAll('.comparison-button').forEach(button => {
+                button.addEventListener('click', () => handleShowComparison(button.dataset.name));
+            });
+        } else {
+            myMenteesList.innerHTML = '<p class="text-gray-500 p-4">You have no mentees yet.</p>';
+        }
+
 
         // --- NEW Dashboard Project List Render ---
         dashboardProjectsList.innerHTML = ''; // Clear it first
-        state.matches.projects.slice(0, 2).forEach(p => { // Show top 2
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <button class="match-card">
-                    <div class="match-card-icon project">${projectIcon}</div>
-                    <div class="match-card-content">
-                        <p class="match-card-title">${p.title}</p>
-                        <p class="match-card-subtitle">${p.role}</p>
-                    </div>
-                    <div class="match-card-score">
-                        <span class="score-value">${p.match}%</span>
-                        <span class="score-label">Match</span>
-                    </div>
-                </button>
-            `;
-            dashboardProjectsList.appendChild(li);
-        });
+        if (state.matches.projects && state.matches.projects.length > 0) {
+            state.matches.projects.slice(0, 2).forEach(p => { // Show top 2
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <button class="match-card">
+                        <div class="match-card-icon project">${projectIcon}</div>
+                        <div class="match-card-content">
+                            <p class="match-card-title">${p.title}</p>
+                            <p class="match-card-subtitle">${p.role}</p>
+                        </div>
+                        <div class="match-card-score">
+                            <span class="score-value">${p.match}%</span>
+                            <span class="score-label">Match</span>
+                        </div>
+                    </button>
+                `;
+                dashboardProjectsList.appendChild(li);
+            });
+        } else {
+            dashboardProjectsList.innerHTML = '<p class="text-gray-500 p-4">No recommended projects at this time.</p>';
+        }
     }
 
     function renderClientDashboard() {
@@ -1028,7 +1133,6 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
         clientWelcome.textContent = `${state.company.name} Dashboard`;
         
         // Mock render active challenges (in real app, you'd fetch this)
-// Mock render active challenges (in real app, you'd fetch this)
         activeChallengesList.innerHTML = ''; // Clear it
         // Mock data
         const challenges = [
@@ -1063,7 +1167,18 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
     // --- Personal Insights & Results (Original Functions) ---
 
     function renderInsightsReport() {
+        // This is PDF Screen 4
         const { scores, remoteFit, topTrait } = state.personalityResults;
+        
+        if (!scores) {
+            console.error("No personality results to display.");
+            // Handle case where data might be missing
+            remoteFitScore.textContent = `N/A`;
+            topTraitName.textContent = 'N/A';
+            topTraitDesc.textContent = 'Could not load trait data.';
+            return;
+        }
+
         remoteFitScore.textContent = `${remoteFit}%`;
         topTraitName.textContent = topTrait.name;
         topTraitDesc.textContent = topTrait.description;
@@ -1085,65 +1200,78 @@ projectCreateBackBtn.addEventListener('click', () => changeView('dashboard-view'
     }
 
 function renderResults() {
+        // This is PDF Screen 5 (Marketplace)
         resultsHeader.textContent = `Welcome, ${state.user.name}!`;
         projectsList.innerHTML = '';
         mentorsList.innerHTML = '';
         menteesList.innerHTML = '';
 
         // --- NEW Project List Render ---
-        state.matches.projects.forEach(project => {
-            const li = document.createElement('li');
-            // We make the <li> the card itself, but use a <button> inside for accessibility
-            li.innerHTML = `
-                <button class="match-card">
-                    <div class="match-card-icon project">${projectIcon}</div>
-                    <div class="match-card-content">
-                        <p class="match-card-title">${project.title}</p>
-                        <p class="match-card-subtitle">${project.role}</p>
-                    </div>
-                    <div class="match-card-score">
-                        <span class="score-value">${project.match}%</span>
-                        <span class="score-label">Match</span>
-                    </div>
-                </button>`;
-            projectsList.appendChild(li);
-        });
+        if (state.matches.projects && state.matches.projects.length > 0) {
+            state.matches.projects.forEach(project => {
+                const li = document.createElement('li');
+                // We make the <li> the card itself, but use a <button> inside for accessibility
+                li.innerHTML = `
+                    <button class="match-card">
+                        <div class="match-card-icon project">${projectIcon}</div>
+                        <div class="match-card-content">
+                            <p class="match-card-title">${project.title}</p>
+                            <p class="match-card-subtitle">${project.role}</p>
+                        </div>
+                        <div class="match-card-score">
+                            <span class="score-value">${project.match}%</span>
+                            <span class="score-label">Match</span>
+                        </div>
+                    </button>`;
+                projectsList.appendChild(li);
+            });
+        } else {
+            projectsList.innerHTML = '<p class="text-gray-500 p-4">No recommended projects at this time.</p>';
+        }
         
         // --- NEW Mentor List Render ---
-        state.matches.mentors.forEach(mentor => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <button data-name="${mentor.name}" class="comparison-button match-card">
-                    <div class="match-card-icon person">${personIcon}</div>
-                    <div class="match-card-content">
-                        <p class="match-card-title">${mentor.name}</p>
-                        <p class="match-card-subtitle">${mentor.title}</p>
-                    </div>
-                    <div class="match-card-score">
-                        <span class="score-value">${mentor.fitScore.toFixed(1)}%</span>
-                        <span class="score-label">Fit Score</span>
-                    </div>
-                </button>`;
-            mentorsList.appendChild(li);
-        });
+        if (state.matches.mentors && state.matches.mentors.length > 0) {
+            state.matches.mentors.forEach(mentor => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <button data-name="${mentor.name}" class="comparison-button match-card">
+                        <div class="match-card-icon person">${personIcon}</div>
+                        <div class="match-card-content">
+                            <p class="match-card-title">${mentor.name}</p>
+                            <p class="match-card-subtitle">${mentor.title}</p>
+                        </div>
+                        <div class="match-card-score">
+                            <span class="score-value">${mentor.fitScore.toFixed(1)}%</span>
+                            <span class="score-label">Fit Score</span>
+                        </div>
+                    </button>`;
+                mentorsList.appendChild(li);
+            });
+        } else {
+             mentorsList.innerHTML = '<p class="text-gray-500 p-4">No recommended mentors at this time.</p>';
+        }
 
         // --- NEW Mentee List Render ---
-        state.matches.mentees.forEach(mentee => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <button data-name="${mentee.name}" class="comparison-button match-card">
-                    <div class="match-card-icon person">${personIcon}</div>
-                    <div class="match-card-content">
-                        <p class="match-card-title">${mentee.name}</p>
-                        <p class="match-card-subtitle">${mentee.title}</p>
-                    </div>
-                    <div class="match-card-score">
-                        <span class="score-value">${mentee.fitScore.toFixed(1)}%</span>
-                        <span class="score-label">Fit Score</span>
-                    </div>
-                </button>`;
-            menteesList.appendChild(li);
-        });
+        if (state.matches.mentees && state.matches.mentees.length > 0) {
+            state.matches.mentees.forEach(mentee => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <button data-name="${mentee.name}" class="comparison-button match-card">
+                        <div class="match-card-icon person">${personIcon}</div>
+                        <div class="match-card-content">
+                            <p class="match-card-title">${mentee.name}</p>
+                            <p class="match-card-subtitle">${mentee.title}</p>
+                        </div>
+                        <div class="match-card-score">
+                            <span class="score-value">${mentee.fitScore.toFixed(1)}%</span>
+                            <span class="score-label">Fit Score</span>
+                        </div>
+                    </button>`;
+                menteesList.appendChild(li);
+            });
+        } else {
+            menteesList.innerHTML = '<p class="text-gray-500 p-4">No recommended mentees at this time.</p>';
+        }
         
         // This original code is still correct and finds the new buttons
         document.querySelectorAll('.comparison-button').forEach(button => {
@@ -1187,11 +1315,13 @@ function renderResults() {
 // Step C3: Handle Project Creation (MODIFIED for Wizard)
     async function handleProjectCreate(e) {
         e.preventDefault();
+        showWizardStep(1); // Reset wizard
 
         // Check for personality input
         const personality = projectCreateForm.querySelector('input[name="project-personality"]:checked');
         if (!personality) {
             alert("Please select a project personality.");
+            showWizardStep(3); // Send them back to step 3
             return;
         }
 
@@ -1272,18 +1402,22 @@ function renderResults() {
     // Step C5: Handle Create New Project
     function handleCreateNewProject() {
         projectCreateForm.reset();
+        showWizardStep(1); // Reset wizard to step 1
         changeView('project-create-view');
     }
     
     // --- Comparison Flow Logic (Original) ---
 
     async function handleShowComparison(otherUserName) {
+        // Handle case where user has no scores (e.g., company)
         if (!state.user.id || !state.personalityResults.scores || Object.keys(state.personalityResults.scores).length === 0) {
+            // Use a default profile for the company
             state.user.name = state.company.name || "Your Company";
             state.personalityResults.scores = {
-                'Emotional Stability': 50, 'Agreeableness': 50, 'Conscientiousness': 50, 'Extraversion': 50, 'Openness': 50,
+                'Emotional Stability': 50, 'Agreeableness': 60, 'Conscientiousness': 70, 'Extraversion': 40, 'Openness': 55,
             };
         }
+        
         changeView('loading-view');
         const compRes = await MOCK_API.getComparison(state.user.id, otherUserName);
         if (compRes.success) {
@@ -1389,7 +1523,7 @@ function renderResults() {
         healthCheckFitRatingInput.value = "";
 
         // Show the modal
-        projectHealthModal.style.display = 'block';
+        projectHealthModal.style.display = 'flex'; // Use flex for overlay
     }
 
     function closeHealthCheckModal() {
