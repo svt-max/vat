@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortefor Mentorship Platform</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Load Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Load Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Load Custom Script (defer ensures it runs after HTML is parsed) -->
+    <script src="script.js" defer></script>
+</head>
+<body class="">
+
+    <!-- Landing Page (Visible by default) -->
+    <main id="landing-page" class="landing-page">
+        <!-- Navigation Bar -->
+        <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex-shrink-0 flex items-center">
+                        <h1 class="text-2xl font-bold text-blue-600">Fortefor</h1>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <!-- 
+                          MODIFICATION: Added 'nav-link' class and specific IDs to each link
+                          for the scroll-spy functionality.
+                        -->
+                        <a id="nav-problem" href="#problem" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">The Problem</a>
+                        <a id="nav-insight" href="#insight" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">The Insight</a>
+                        <a id="nav-solution" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">The Solution</a>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="get-started-btn bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="bg-white fade-in">
+            <div class="max-w-6xl mx-auto py-24 px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                    Stop Guessing. Start Matching.
+                </h2>
+                <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-600">
+                    The first platform to match freelancers, projects, and mentors based on personality, fit, and proven science.
+                </p>
+                <div class="mt-10">
+                    <button class="get-started-btn bg-blue-600 text-white font-semibold py-4 px-10 rounded-lg shadow-lg text-lg hover:bg-blue-700 transition duration-300">
+                        Find Your Perfect Fit
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 
+          MODIFICATION: Added 'landing-section' class to each section
+          for the scroll-spy IntersectionObserver.
+        -->
+        
+        <!-- Section 1: The Problem -->
+        <section id="problem" class="landing-section py-20 bg-gray-50 fade-in">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <p class="text-base text-blue-600 font-semibold tracking-wide uppercase">The Problem</p>
+                    <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        Why Freelance Projects Fail
+                    </h3>
+                    <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-600">
+                        Most projects get expensive and fail due to a bad fit between the person and the project.
+                    </p>
+                </div>
+                <div class="mt-12 text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto">
+                    <p class="mt-4">
+                        Hiring is based on guesswork. Sometimes you need a creative genius, and other times you need someone to just listen to instructions. But how do you know who you're getting?
+                    </p>
+                    <p class="mt-4">
+                        This guesswork is virtually impossible to work with. A brilliant freelancer might fail in a rigid corporate structure, while a detail-oriented freelancer might get lost in a fast-moving creative project.
+                        <strong>This is not a failure of talent, it's a failure of matching.</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Insight -->
+        <section id="insight" class="landing-section py-20 bg-white fade-in">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-3 lg:gap-8 lg:items-center">
+                    <div>
+                        <p class="text-base text-blue-600 font-semibold tracking-wide uppercase">The Insight</p>
+                        <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                            The "Fit Score" is the Guideline
+                        </h3>
+                        <p class="mt-4 text-lg text-gray-600">
+                            There are certain traits that define freelancers for a project. Personality traits, for example, allow them to help organizations that are more rigid by being more agreeable themselves. This inter-company/freelancer fit score is a great guideline for better projects.
+                        </p>
+                    </div>
+                    <div class="mt-10 lg:mt-0 col-span-2 flex justify-center">
+                        <div class="bg-blue-50 p-12 rounded-xl border-4 border-blue-200 text-center">
+                            <div class="text-8xl font-extrabold text-blue-600">8x</div>
+                            <div class="mt-4 text-2xl font-semibold text-gray-800">
+                                Better Project Outcomes
+                            </div>
+                            <p class="mt-2 text-lg text-gray-600">
+                                Good projects (with well-fitting freelancers) can have up to 8x better outcomes in time-to-delivery, customer satisfaction, and quality.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Solution (and the Kicker) -->
+        <section id="solution" class="landing-section py-20 bg-gray-50 fade-in">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <p class="text-base text-blue-600 font-semibold tracking-wide uppercase">The Solution</p>
+                    <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        Matching & Mentorship. Solved.
+                    </h3>
+                </div>
+                <div class="mt-12 text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto">
+                    <p class="text-xl text-center font-medium text-gray-800">
+                        The Fortefor solution pre-screens people based on these crucial elements and then matches them with projects. But wait, there's much more...
+                    </p>
+                    
+                    <h4 class="mt-10 text-2xl font-bold text-gray-900">The Kicker: Integrated Mentorship</h4>
+                    <p class="mt-4">
+                        A huge kicker to really carry it home. The Fortefor talent follows the same philosophy: good people come in varying degrees of seniority and pricing. To offset this, Fortefor offers an <strong>integrated mentorship and coaching experience</strong>.
+                    </p>
+                    <p class="mt-4">
+                        All freelancers on the platform either <strong>have a mentor or are a mentor</strong>—mostly both. This isn't just an add-on; it's cored to the model. It ensures that junior talent has senior guidance, guaranteeing quality and actionability. It allows senior talent to scale their expertise, and it creates a self-sustaining ecosystem of growth.
+                    </p>
+
+                    <h4 class="mt-10 text-2xl font-bold text-gray-900">A Unique Mentor-Mentee Fit Score</h4>
+                    <p class="mt-4">
+                        To make sure mentors have an equally great fit, we have another unique fit score. Based on the same dataset, we look at whether the mentor and mentee are <strong>complementary (Divergent Fit)</strong> or <strong>too different to understand each other</strong>.
+                    </p>
+                    <p class="mt-4">
+                        It's all based on very scientific, very validated models from our partners at <a href="https://www.talentdatalabs.com/" target="_blank" rel="noopener" class="text-blue-600 font-medium hover:underline">Talent Data Labs</a>.
+                    </p>
+                </div>
+
+                <div class="mt-16 text-center">
+                    <button class="get-started-btn bg-blue-600 text-white font-semibold py-4 px-10 rounded-lg shadow-lg text-lg hover:bg-blue-700 transition duration-300">
+                        Start Your Journey
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+
+    <!-- Main Application Container (Hidden by default) -->
+    <div id="app-container" class="bg-white w-full p-8 rounded-xl shadow-lg">
+
+        <!-- View 0: Role Selection -->
+        <div id="role-selection-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Fortefor</h1>
+                <p class="text-lg text-gray-600 mt-2">Mentor & Mentee Matching Platform</p>
+            </header>
+            <p class="text-center text-gray-700 mb-8">Please select your role to begin:</p>
+            <div class="space-y-4">
+                <button id="role-freelancer" class="w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg">
+                    I am a Freelancer
+                </button>
+                <button id="role-company" class="w-full bg-gray-700 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-gray-800 transition duration-300 text-lg">
+                    I am a Company
+                </button>
+            </div>
+            <button type="button" class="back-to-home w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-8">
+                &larr; Back to Home
+            </button>
+        </div>
+
+        <!-- View 0b: mentor-mentee select -->
+        <div id="mentor-mentee-select-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Welcome to the Community</h1>
+                <p class="text-lg text-gray-600 mt-2">Let's define your journey.</p>
+            </header>
+            
+            [cite_start]<p class="text-center text-gray-700 mb-8 text-lg">What is your primary goal on the Fortefor platform? [cite: 99, 112]</p>
+            
+            <div class="space-y-4">
+                <button id="select-find-mentor" class="w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg">
+                    I want to <span class="font-bold">Find a Mentor</span>
+                </button>
+                <button id="select-be-mentor" class="w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg">
+                    I want to <span class="font-bold">Be a Mentor</span>
+                </button>
+                <button id="select-both-roles" class="w-full bg-gray-200 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm hover:bg-gray-300 transition duration-300 text-lg">
+                    I'm interested in <span class="font-bold">Both</span>
+                </button>
+            </div>
+
+            <button type="button" class="back-to-role w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-8">
+                &larr; Go Back
+            </button>
+        </div>
+
+        <!-- View 0c: Mentee Goals Selection -->
+        <div id="mentee-goals-view" class="view">
+            <header class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">What are your goals?</h2>
+                <p class="text-gray-600">This is the most important step to finding the right mentor. Select all that apply.</p>
+            </header>
+            
+            <form id="mentee-goals-form">
+                <div class="space-y-4">
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentee-goal" value="portfolio" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">Building/improving my portfolio</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentee-goal" value="job-hunt" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">Job-hunting & interview prep</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentee-goal" value="skills" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">Improving my core UX/Design skills</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentee-goal" value="strategy" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">Career strategy and growth</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentee-goal" value="freelance" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">Navigating freelance life (pricing, clients, etc.)</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentee-goal" value="other" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">Other (you can discuss in your first call)</span>
+                    </label>
+                </div>
+                
+                <button type="submit" id="mentee-goals-next" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-8">
+                    Next
+                </button>
+                <button type="button" id="back-to-mentor-select" class="back-to-mentor-select-btn w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                    &larr; Go Back
+                </button>
+            </form>
+        </div>
+
+        <!-- View 0d: Mentor Focus Selection -->
+        <div id="mentor-focus-view" class="view">
+            <header class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">How can you help?</h2>
+                <p class="text-gray-600">This helps us match you with the right mentees. What topics are you passionate about teaching?</p>
+            </header>
+            
+            <form id="mentor-focus-form">
+                <div class="space-y-4">
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentor-focus" value="portfolio" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">I'd like to help with portfolio building</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentor-focus" value="job-hunt" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">I can help with job-hunting & interview prep</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentor-focus" value="skills" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">I enjoy teaching core UX/Design skills</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentor-focus" value="strategy" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">I'm good at career strategy and growth</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentor-focus" value="freelance" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">I can share my freelance experience (pricing, clients)</span>
+                    </label>
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <input type="checkbox" name="mentor-focus" value="share" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-4 text-gray-700 text-lg">I just enjoy sharing knowledge and supporting growth</span>
+                    </label>
+                </div>
+                
+                <button type="submit" id="mentor-focus-next" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-8">
+                    Next
+                </button>
+                <button type="button" id="back-to-mentor-select" class="back-to-mentor-select-btn w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                    &larr; Go Back
+                </button>
+            </form>
+        </div>
+        <!-- View 0e: Logistics / Availability Selection -->
+        <div id="logistics-availability-view" class="view">
+            <header class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Set your availability</h2>
+                <p class="text-gray-600">How often are you available and in what format? This helps us find a match that works for your schedule.</p>
+            </header>
+            
+            <form id="logistics-form">
+                <div class="mb-6">
+                    <label class="block text-lg font-medium text-gray-700 mb-2">How often can you meet?</label>
+                    <div class="space-y-4">
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" name="availability" value="weekly" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                            <span class="ml-4 text-gray-700">Weekly</span>
+                        </label>
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" name="availability" value="bi-weekly" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                            <span class="ml-4 text-gray-700">Every 2 weeks</span>
+                        </label>
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" name="availability" value="monthly" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                            <span class="ml-4 text-gray-700">Monthly</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Preferred formats? (Select all that work)</label>
+                    <div class="space-y-4">
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="checkbox" name="format" value="video" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <span class="ml-4 text-gray-700">Video calls</span>
+                        </label>
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="checkbox" name="format" value="chat" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <span class="ml-4 text-gray-700">Async chat</span>
+                        </label>
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="checkbox" name="format" value="email" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <span class="ml-4 text-gray-700">Email / Portfolio Review</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" id="logistics-next" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                    Next
+                </button>
+            </form>
+        </div>
+
+        <!-- View 0f: Work Values Assessment -->
+        <div id="work-values-assessment-view" class="view">
+            <header class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Your Ideal Work Environment</h2>
+                <p class="text-gray-600" id="wva-progress-text">Category 1 of 5</p>
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                    <div id="wva-progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 20%"></div>
+                </div>
+            </header>
+            
+            <div id="wva-question-container">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6" id="wva-category-title">Category Title Here</h3>
+                
+                <form id="wva-form">
+                    <div id="wva-scales-container" class="space-y-6">
+                        <div class="wva-question">
+                            <label for="wva-q-1" class="block text-lg font-medium text-gray-700 mb-2">A creative and high-energy work environment</label>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-sm text-gray-500">Not important</span>
+                                <input type="range" id="wva-q-1" name="wva-q-1" min="0" max="100" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <span class="text-sm text-gray-500">Very important</span>
+                            </div>
+                        </div>
+                        </div>
+                    
+                    <button type="submit" id="wva-next-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-8">
+                        Next Category
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- View 1: Registration -->
+        <div id="register-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Fortefor</h1>
+                <p class="text-lg text-gray-600 mt-2">Mentor & Mentee Matching Platform</p>
+            </header>
+            
+            <p class="text-gray-700 mb-6">Welcome! To find your ideal mentor or mentee, we need to learn more about your work style. Let's start with a quick assessment.</p>
+            
+            <form id="register-form">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Jane Doe" required>
+                </div>
+                <div class="mb-6">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="jane.doe@fortefor.com" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                    Start Assessment
+                </button>
+                <button type="button" class="back-to-role w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                    &larr; Go Back
+                </button>
+            </form>
+        </div>
+
+        <!-- View 2: Assessment -->
+        <div id="assessment-view" class="view">
+            <header class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Talent Assessment</h2>
+                <p class="text-gray-600" id="progress-text">Question 1 of 5</p>
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 20%"></div>
+                </div>
+            </header>
+            
+            <div id="question-container">
+                <!-- Question will be injected here -->
+                <p class="text-lg font-medium text-gray-900 mb-6" id="question-text"></p>
+                
+                <!-- Scales (Answers) will be injected here -->
+                <form id="assessment-form">
+                    <div id="scales-container" class="space-y-4">
+                        <!-- Example: 
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="answer" value="1" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-700">Completely Disagree</span>
+                        </label>
+                        -->
+                    </div>
+                    <p id="answer-error" class="text-red-500 text-sm mt-4" style="display: none;">Please select an answer.</p>
+                    <button type="submit" id="next-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-8">
+                        Next
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- View 3: Loading -->
+        <div id="loading-view" class="view flex-col items-center justify-center h-64">
+            <div class="loader"></div>
+            <p class="text-lg text-gray-700 mt-6">Analyzing your results...</p>
+            <p class="text-gray-600">Matching you with projects and people.</p>
+        </div>
+
+        <!-- View 4: Results -->
+        <div id="results-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800" id="results-header">Welcome, Jane!</h1>
+                <p class="text-lg text-gray-600 mt-2">Here are your recommended matches.</p>
+            </header>
+
+            <!-- Recommended Projects -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Recommended Projects</h2>
+                <ul id="projects-list" class="divide-y divide-gray-200">
+                    <!-- Projects injected here -->
+                </ul>
+            </div>
+            
+            <!-- Recommended Mentors -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Potential Mentors</h2>
+                <ul id="mentors-list" class="divide-y divide-gray-200">
+                    <!-- Mentors injected here -->
+                </ul>
+            </div>
+
+            <!-- Recommended Mentees -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Potential Mentees</h2>
+                <ul id="mentees-list" class="divide-y divide-gray-200">
+                    <!-- Mentees injected here -->
+                </ul>
+            </div>
+
+            <button id="view-insights-button" class="w-full bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300 mt-12">
+                &larr; Back to My Insights
+            </button>
+            <button type="button" class="back-to-home w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                &larr; Back to Home
+            </button>
+        </div>
+
+        <!-- View 5: Company Login -->
+        <div id="company-login-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Company Portal</h1>
+                <p class="text-lg text-gray-600 mt-2">Find the best talent for your projects.</p>
+            </header>
+            
+            <form id="company-login-form">
+                <div class="mb-4">
+                    <label for="company-name" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                    <input type="text" id="company-name" name="company-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Acme Inc." required>
+                </div>
+                <div class="mb-6">
+                    <label for="company-email" class="block text-sm font-medium text-gray-700 mb-1">Your Email Address</label>
+                    <input type="email" id="company-email" name="company-email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="manager@acme.com" required>
+                </div>
+                <button type="submit" class="w-full bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-800 transition duration-300">
+                    Log In / Register
+                </button>
+                <button type="button" class="back-to-role w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                    &larr; Go Back
+                </button>
+            </form>
+        </div>
+
+        <!-- View 5b: Company Culture Start -->
+        <div id="company-culture-start-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Define Your Culture</h1>
+                <p class="text-lg text-gray-600 mt-2">This is the key to finding talent that "just gets it."</p>
+            </header>
+            
+            <p class="text-gray-700 mb-6 text-lg">
+                Before you post a project, we need to understand your company's work style. Is your environment rigid or agile? Creative or structured? 
+            </p>
+            <p class="text-gray-700 mb-8 text-lg">
+                This 5-minute assessment will create a **Company Culture Profile**. We use this profile to match you with freelancers who will thrive in your specific environment, ensuring a better fit and project outcome. [cite: 91, 303, 305]
+            </p>
+            
+            <form id="company-culture-start-form">
+                <button type="submit" id="company-culture-begin-btn" class="w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg">
+                    Begin Profile (5 min)
+                </button>
+                <button type="button" class="back-to-home w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                    &larr; Go Back (Log Out)
+                </button>
+            </form>
+        </div>
+
+        <div id="dashboard-view" class="view">
+            
+            <div id="freelancer-dashboard-content" style="display: none;">
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800" id="freelancer-welcome">Welcome, Jane!</h1>
+                    <p class="text-lg text-gray-600 mt-2">This is your central hub for projects and mentorship.</p>
+                </header>
+
+                                <div class="dashboard-section">
+                    <h2>My Mentorship</h2>
+                    <div id="my-mentor-card" class="p-4 rounded-lg mb-4">
+                        <p class="text-sm font-medium text-blue-800">YOUR MENTOR</p>
+                        <p class="mentor-name">Dr. Elena Rodriguez</p>
+                        <button class="text-blue-600 font-medium hover:underline mt-1">Send Message</button>
+                    </div>
+                    <p class="text-lg font-medium text-gray-700 mb-2">YOUR MENTEES (2)</p>
+                    <ul id="my-mentees-list">
+                                            </ul>
+                </div>
+
+                                <div class="dashboard-section">
+                    <h2>Recommended Projects</h2>
+                    <ul id="dashboard-projects-list">
+                                            </ul>
+                    <button id="dashboard-see-all-matches-btn" class="w-full text-blue-600 font-semibold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300 mt-4">
+                        See All Matches &rarr;
+                    </button>
+                </div>
+
+                <button id="dashboard-view-insights-btn" class="w-full bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300">
+                    View My Personal Insights
+                </button>
+
+                <button id="temp-health-check-trigger" class="w-full bg-yellow-500 text-black font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 mt-4">
+                    (Test) Trigger Project Health Check
+                </button>
+            </div>
+            <!--dashboard view -->
+<div id="client-dashboard-content" style="display: none;">
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800" id="client-welcome">Acme Inc. Dashboard</h1>
+                    <p class="text-lg text-gray-600 mt-2">Manage your challenges and find expert talent.</p>
+                </header>
+
+                <button id="dashboard-post-challenge-btn" class="w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg mb-8">
+                    + Post a New Challenge
+                </button>
+
+                <div class="dashboard-section">
+                    <h2>Active Challenges</h2>
+                    <ul id="active-challenges-list">
+                                            </ul>
+                </div>
+
+                <button id="dashboard-edit-culture-btn" class="w-full bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg shadow-sm hover:bg-gray-300 transition duration-300">
+                    Edit Company Culture Profile
+                </button>
+            </div>
+
+            <button type="button" class="back-to-home w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-8">
+                &larr; Log Out
+            </button>
+        </div>
+
+        <!-- View 6: Project Management Workspace -->
+        <div id="pm-workspace-view" class="view">
+            <header class="mb-6 border-b pb-4">
+                <h1 class="text-3xl font-bold text-gray-800" id="pm-project-title">Global E-commerce Platform</h1>
+                <p class="text-lg text-gray-600 mt-2">Manage your project, communicate with your team, and track progress.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="md:col-span-2 space-y-8">
+                    
+                    <div>
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Milestones</h2>
+                        <ul id="milestone-list" class="space-y-4">
+                            <li class="flex items-center p-4 bg-green-50 border border-green-200 rounded-lg">
+                                <input id="milestone-1" name="milestone-1" type="checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                <label for="milestone-1" class="ml-4 text-lg text-gray-700 line-through">Phase 1: Discovery & Research</label>
+                            </li>
+                            <li class="flex items-center p-4 bg-white border border-gray-300 rounded-lg">
+                                <input id="milestone-2" name="milestone-2" type="checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <label for="milestone-2" class="ml-4 text-lg text-gray-800">Phase 2: Wireframes & Prototyping</label>
+                            </li>
+                            <li class="flex items-center p-4 bg-white border border-gray-300 rounded-lg">
+                                <input id="milestone-3" name="milestone-3" type="checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <label for="milestone-3" class="ml-4 text-lg text-gray-800">Phase 3: Final UI Design & Handoff</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Project Files</h2>
+                        <ul id="file-list" class="divide-y divide-gray-200 border rounded-lg">
+                            <li class="p-4 flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-800 font-medium">project_brief_v2.pdf</p>
+                                    <p class="text-sm text-gray-500">Uploaded by Acme Inc.</p>
+                                </div>
+                                <a href="#" class="text-blue-600 font-medium hover:underline">Download</a>
+                            </li>
+                            <li class="p-4 flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-800 font-medium">wireframes_draft_1.fig</p>
+                                    <p class="text-sm text-gray-500">Uploaded by Alex Johnson</p>
+                                </div>
+                                <a href="#" class="text-blue-600 font-medium hover:underline">Download</a>
+                            </li>
+                        </ul>
+                        <button class="w-full text-blue-600 font-semibold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300 mt-4 border border-blue-500">
+                            + Upload File
+                        </button>
+                    </div>
+                </div>
+
+                <div class="md:col-span-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Team Chat</h2>
+                    <div class="border rounded-lg bg-gray-50 h-[600px] flex flex-col">
+                        <div id="chat-messages" class="flex-1 p-4 space-y-4 overflow-y-auto">
+                            <div class="flex">
+                                <div class="p-3 bg-gray-200 rounded-lg max-w-xs">
+                                    <p class="text-sm text-gray-800">Hey Alex, the new brief is uploaded. Let me know what you think!</p>
+                                    <p class="text-xs text-gray-500 text-right mt-1">Acme Inc.</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <div class="p-3 bg-blue-600 text-white rounded-lg max-w-xs">
+                                    <p class="text-sm">Perfect, downloading it now. I'll get started on the wireframes.</p>
+                                    <p class="text-xs text-blue-100 text-right mt-1">Alex Johnson</p>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="chat-form" class="flex border-t p-4 bg-white rounded-b-lg">
+                            <input type="text" id="chat-input" placeholder="Type your message..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="submit" class="ml-2 bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition">
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="back-to-dashboard-btn" class="w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-12">
+                &larr; Back to Dashboard
+            </button>
+        </div>
+        
+        <!-- View 6: Project Creation -->
+<div id="project-create-view" class="view">
+            <header class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Post a New Challenge</h2>
+                <p class="text-gray-600">This guided wizard will find your perfect fit.</p>
+                <div id="project-wizard-progress" class="flex space-x-2 mt-6">
+                    <div class="wizard-step-indicator active" data-step-indicator="1"></div>
+                    <div class="wizard-step-indicator" data-step-indicator="2"></div>
+                    <div class="wizard-step-indicator" data-step-indicator="3"></div>
+                </div>
+            </header>
+            
+            <form id="project-create-form">
+
+                <div class="wizard-step active" data-step="1">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Step 1: The Goal</h3>
+                    <div class="mb-4">
+                        <label for="project-type" class="block text-sm font-medium text-gray-700 mb-1">What problem are you solving?</label>
+                        <input type="text" id="project-type" name="project-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Design a mobile checkout flow" required>
+                    </div>
+                    <button type="button" data-next="2" class="wizard-nav-btn w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition">
+                        Next: Define The People &rarr;
+                    </button>
+                </div>
+
+                <div class="wizard-step" data-step="2">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Step 2: The People</h3>
+                    <div class="mb-4">
+                        <label for="freelancer-count" class="block text-sm font-medium text-gray-700 mb-1">Number of Freelancers</label>
+                        <select id="freelancer-count" name="freelancer-count" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <option value="1">1 Freelancer</option>
+                            <option value="2">2 Freelancers</option>
+                            <option value="3">3 Freelancers</option>
+                            <option value="4">4 Freelancers</option>
+                            <option value="5">5 Freelancers</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Team Structure</label>
+                        <div class="flex space-x-4">
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition flex-1">
+                                <input type="radio" name="team-structure" value="individual" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required checked>
+                                <span class="ml-4 text-gray-700">Individual Contributors</span>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition flex-1">
+                                <input type="radio" name="team-structure" value="team" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                                <span class="ml-4 text-gray-700">A Cohesive Team</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button type="button" data-back="1" class="wizard-nav-btn w-1/2 bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition">
+                            &larr; Back
+                        </button>
+                        <button type="button" data-next="3" class="wizard-nav-btn w-1/2 bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition">
+                            Next: Define Personality &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <div class="wizard-step" data-step="3">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Step 3: Project Personality</h3>
+                    [cite_start]<p class="text-gray-600 mb-4">What kind of person will succeed in this project? [cite: 356]</p>
+                    <div class="space-y-4 mb-6">
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" name="project-personality" value="innovator" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                            <div class="ml-4">
+                                <span class="text-gray-800 font-medium">A "Blue-Sky" Innovator</span>
+                                [cite_start]<p class="text-sm text-gray-600">Someone who thrives on ambiguity and loves creative freedom. [cite: 358]</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" name="project-personality" value="executor" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                            <div class="ml-4">
+                                <span class="text-gray-800 font-medium">A Meticulous "Executor"</span>
+                                [cite_start]<p class="text-sm text-gray-600">Someone who follows instructions perfectly for a rigid, well-defined task. [cite: 358]</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" name="project-personality" value="balanced" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required checked>
+                            <div class="ml-4">
+                                <span class="text-gray-800 font-medium">A Balanced Collaborator</span>
+                                <p class="text-sm text-gray-600">Someone who can take direction but also add their own creative input.</p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button type="button" data-back="2" class="wizard-nav-btn w-1/2 bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition">
+                            &larr; Back
+                        </button>
+                        <button type="submit" class="w-1/2 bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition">
+                            Find Talent
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="button" id="project-create-back-to-dashboard" class="w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-8">
+                    &larr; Back to Dashboard
+                </button>
+            </form>
+        </div>
+
+        <!-- View 7: Project Review -->
+        <div id="project-review-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Project Complete!</h1>
+                <p class="text-lg text-gray-600 mt-2">Please provide feedback on the project: <span classs="font-semibold" id="review-project-title">"Global E-commerce Platform"</span></p>
+            </header>
+            
+            <form id="project-review-form">
+
+                <div id="client-review-section" class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">How was your experience with <span id="review-freelancer-name">Alex Johnson</span>?</h2>
+                    
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Overall Project Outcome</label>
+                        <div class="flex space-x-2">
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Poor</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Fair</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Good</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Great</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Excellent</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="freelancer-review-section" class="mb-8" style="display: none;">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">How was your experience with <span id="review-client-name">Acme Inc.</span>?</h2>
+                    
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Clarity of Brief & Communication</label>
+                         <div class="flex space-x-2">
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Poor</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Fair</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Good</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Great</button>
+                            <button type="button" class="rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Excellent</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="review-comments" class="block text-lg font-medium text-gray-700 mb-2">Additional Comments (Optional)</label>
+                    <textarea id="review-comments" name="review-comments" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Any details about what went well or could be improved..."></textarea>
+                </div>
+                
+                <button type="submit" id="submit-review-btn" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                    Submit Review & Finish Project
+                </button>
+            </form>
+        </div>
+
+        <!-- View 8: Mentor Feedback -->
+        <div id="mentor-feedback-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Mentorship Check-in</h1>
+                <p class="text-lg text-gray-600 mt-2">How is your mentorship relationship going?</p>
+            </header>
+            
+            <form id="mentor-feedback-form">
+                
+                <div id="mentee-feedback-section" class="mb-6">
+                    <label class="block text-lg font-medium text-gray-700 mb-2">How helpful has your mentor, <span id="feedback-mentor-name">Dr. Elena</span>, been recently?</label>
+                    <div class="flex space-x-2">
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Not Very Helpful</button>
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Somewhat Helpful</button>
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Helpful</button>
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Very Helpful</button>
+                    </div>
+                </div>
+
+                <div id="mentor-feedback-section" class="mb-6" style="display: none;">
+                    <label class="block text-lg font-medium text-gray-700 mb-2">How engaged has your mentee, <span id="feedback-mentee-name">Jia Li</span>, been recently?</label>
+                    <div class="flex space-x-2">
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Not Very Engaged</button>
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Somewhat Engaged</button>
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Engaged</button>
+                        <button type="button" class="feedback-rating-btn flex-1 text-gray-700 py-3 px-4 rounded-lg border hover:bg-gray-100">Very Engaged</button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="feedback-comments" class="block text-lg font-medium text-gray-700 mb-2">Private Comments (Optional)</label>
+                    <textarea id="feedback-comments" name="feedback-comments" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="This feedback is private and helps us ensure you have a high-quality match..."></textarea>
+                </div>
+                
+                <button type="submit" id="submit-feedback-btn" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                    Submit Feedback
+                </button>
+                <button type="button" id="skip-feedback-btn" class="w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                    Skip for Now
+                </button>
+            </form>
+        </div>
+
+        <!-- View 7: Company Loading -->
+        <div id="company-loading-view" class="view flex-col items-center justify-center h-64">
+            <div class="loader"></div>
+            <p class="text-lg text-gray-700 mt-6">Finding talent for your project...</p>
+            <p class="text-gray-600">Analyzing profiles for the best fit.</p>
+        </div>
+
+        <!-- View 8: Company Results -->
+        <div id="company-results-view" class="view">
+            <header class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800" id="company-results-header">Project Matches</h1>
+                <p class="text-lg text-gray-600 mt-2" id="company-project-details">Here are the best matches for "Global E-commerce Platform".</p>
+            </header>
+
+            <!-- Recommended Team (Conditional) -->
+            <div id="team-results-container" class="mb-8" style="display: none;">
+                <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Recommended Team</h2>
+                <ul id="team-list" class="divide-y divide-gray-200">
+                    <!-- Team injected here -->
+                </ul>
+            </div>
+
+            <!-- Recommended Individuals -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Recommended Individuals</h2>
+                <ul id="talent-list" class="divide-y divide-gray-200">
+                    <!-- Talent injected here -->
+                </ul>
+            </div>
+            
+            <button id="new-project-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-8">
+                Create New Project
+            </button>
+            <button type="button" class="back-to-home w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                &larr; Back to Home
+            </button>
+        </div>
+
+        <!-- View 9: Personal Insights Report -->
+        <div id="insights-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Your Personal Insights</h1>
+                <p class="text-lg text-gray-600 mt-2">Here's what we learned about your work style.</p>
+            </header>
+
+            <!-- Personality Radar Chart -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Personality Profile</h2>
+                <div class="p-4 border rounded-lg bg-gray-50">
+                    <canvas id="personality-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Key Insights -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Key Insights</h2>
+                <div class="space-y-4">
+                    <!-- Remote Fit Score (from slide 15) -->
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p class="text-lg font-medium text-blue-800">Remote Fit Score</p>
+                        <p class="text-3xl font-bold text-blue-600" id="remote-fit-score">91%</p>
+                        <p class="text-blue-700 mt-1">You are highly suited for remote work and can thrive in an out-of-office environment.</p>
+                    </div>
+                    <!-- Top Trait -->
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <p class="text-lg font-medium text-green-800">Your Top Trait</p>
+                        <p class="text-3xl font-bold text-green-600" id="top-trait-name">Openness</p>
+                        <p class="text-green-700 mt-1" id="top-trait-desc">You have a vivid imagination and are open to new ideas and experiences.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button id="see-matches-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-12">
+                See Your Matches &rarr;
+            </button>
+            <button type="button" class="back-to-home w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                &larr; Back to Home
+            </button>
+        </div>
+
+        <!-- View 10: 1-on-1 Comparison Report -->
+        <div id="comparison-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800" id="comparison-header">Comparison Report</h1>
+                <p class="text-lg text-gray-600 mt-2" id="comparison-subheader">User 1 vs. User 2</p>
+            </header>
+
+            <!-- Comparison Radar Chart -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Personality Comparison</h2>
+                <div class="p-4 border rounded-lg bg-gray-50">
+                    <canvas id="comparison-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Teamsight Scores -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Teamsight Scores</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Convergent Fit -->
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p class="text-lg font-medium text-blue-800">Convergent Fit (Similarity)</p>
+                        <p class="text-3xl font-bold text-blue-600" id="convergent-score">20%</p>
+                        <p class="text-blue-700 mt-1" id="convergent-desc">Direct collaboration, mentorship, and simultaneous work on similar tasks.</p>
+                    </div>
+                    <!-- Divergent Fit -->
+                    <div class="p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                        <p class="text-lg font-medium text-purple-800">Divergent Fit (Complementary)</p>
+                        <p class="text-3xl font-bold text-purple-600" id="divergent-score">66%</p>
+                        <p class="text-purple-700 mt-1" id="divergent-desc">Creative processes, innovation, covering different grounds or specializations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trait-by-Trait Analysis -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Trait Analysis</h2>
+                <div id="trait-analysis-container" class="space-y-6">
+                    <!-- Analysis will be injected here -->
+                </div>
+            </div>
+
+            <button id="back-to-matches-button" class="w-full bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300 mt-12">
+                &larr; Back to Matches
+            </button>
+        </div>
+        
+    </div> <!-- End Main Application Container -->
+    <div id="project-health-modal" class="view modal-overlay">
+            <div class="modal-content-wrapper">
+                <header class="text-center mb-6">
+                    <h1 class="text-3xl font-bold text-gray-800">Project Health Check-in</h1>
+                    <p class="text-lg text-gray-600 mt-2">Just a 30-second check on your project:</p>
+                    <p class="text-lg font-semibold text-blue-700" id="health-check-project-title">"Global E-commerce Platform"</p>
+                </header>
+                
+                <form id="project-health-form">
+                    
+                    <div class="mb-8">
+                        <label class="block text-lg font-medium text-gray-700 mb-4">How is the 'fit' with <span class="font-semibold" id="health-check-partner-name">Acme Inc.</span>?</label>
+                        <div class="flex justify-between space-x-2" id="health-check-rating-buttons">
+                            <button type="button" data-value="1" class="health-rating-btn flex-1 text-gray-700 py-3 px-2 rounded-lg border hover:bg-gray-100">Poor</button>
+                            <button type="button" data-value="2" class="health-rating-btn flex-1 text-gray-700 py-3 px-2 rounded-lg border hover:bg-gray-100">Fair</button>
+                            <button type="button" data-value="3" class="health-rating-btn flex-1 text-gray-700 py-3 px-2 rounded-lg border hover:bg-gray-100">Good</button>
+                            <button type="button" data-value="4" class="health-rating-btn flex-1 text-gray-700 py-3 px-2 rounded-lg border hover:bg-gray-100">Great</button>
+                            <button type="button" data-value="5" class="health-rating-btn flex-1 text-gray-700 py-3 px-2 rounded-lg border hover:bg-gray-100">Excellent</button>
+                        </div>
+                        <input type="hidden" id="health-check-fit-rating" name="fit_rating" value="">
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block text-lg font-medium text-gray-700 mb-4">Is the project on track to meet its goals?</label>
+                        <div class="space-y-4" id="health-check-status-buttons">
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                                <input type="radio" name="project_status" value="yes" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                                <span class="ml-4 text-gray-700 text-lg">Yes, everything is on track.</span>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                                <input type="radio" name="project_status" value="on-track" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                                <span class="ml-4 text-gray-700 text-lg">It's on track, but there are some challenges.</span>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                                <input type="radio" name="project_status" value="no" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
+                                <span class="ml-4 text-gray-700 text-lg">No, it's at risk of failing its goals.</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" id="submit-health-check-btn" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                        Submit Feedback
+                    </button>
+                    <button type="button" id="skip-health-check-btn" class="w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-4">
+                        Skip for Now
+                    </button>
+                </form>
+            </div>
+    </div>
+</body>
+</html>

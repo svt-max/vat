@@ -1,0 +1,420 @@
+/* Use Inter font family */
+html {
+    /* NEW: Add smooth scrolling to the whole page */
+    scroll-behavior: smooth;
+    /* NEW: Add scroll padding. This ensures that when you
+      click an anchor link, the section title isn't hidden
+      behind your sticky 4rem (h-16) nav bar.
+    */
+    scroll-padding-top: 4rem; 
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
+    /* Subtle gradient for the landing page */
+    background-color: #f8fafc; /* Fallback */
+    background-image: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+    transition: background-image 0.5s ease;
+    /* Ensures content scrolls smoothly */
+    overflow-x: hidden;
+}
+
+/* Simple loader animation */
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3b82f6; /* blue-500 */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* Hide views by default */
+.view {
+    display: none;
+}
+
+/* --- New Landing Page / App Toggle Styles --- */
+
+#app-container {
+    display: none;
+    margin: 4rem auto; /* 16 (4*4) top/bottom margin, centered */
+    width: 90%;
+    /* MODIFICATION: Increased max-width for dashboards.
+      The 80rem (1280px) felt a bit too wide,
+      72rem (1152px) is a standard 'max-w-6xl' and looks great.
+    */
+    max-width: 72rem; /* Was 80rem */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    
+    /* "Slick" card styling */
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem; /* rounded-xl */
+    /* This is the key to the "slick" feel, using backdrop-filter */
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* On smaller screens, use a smaller max-width */
+@media (max-width: 1024px) {
+    #app-container {
+        max-width: 60rem; /* max-w-3xl */
+    }
+}
+
+@media (max-width: 768px) {
+    #app-container {
+        max-width: 42rem; /* max-w-2xl */
+        margin: 1rem auto; /* Smaller margin on mobile */
+        /* Re-apply default padding from HTML on mobile */
+        padding: 1.5rem !important; 
+    }
+}
+
+
+/* Landing page is visible by default */
+.landing-page {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+/* When body.app-active is set by JS */
+body.app-active .landing-page {
+    display: none;
+    opacity: 0;
+}
+
+body.app-active #app-container {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body.app-active {
+    /* "Slick" gradient background for the app view */
+    background-image: linear-gradient(to bottom right, #f0f9ff, #e0f2fe, #dbeafe, #eef2ff);
+    
+    /* Re-apply the original centering for the app view */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+/* --- NEW: Landing Page Nav Active State --- */
+.nav-link.nav-link-active {
+    /* This matches Tailwind's 'text-blue-600' and 'border-blue-600' */
+    color: #3b82f6; 
+    border-bottom-color: #3b82f6;
+    font-weight: 600; /* semibold */
+}
+/* --- Custom Component Styles --- */
+
+/* Custom styling for range sliders in Work Values Assessment */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px; /* h-2 */
+    background: #e5e7eb; /* bg-gray-200 */
+    border-radius: 9999px; /* rounded-lg */
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+/* Thumb (slider handle) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #3b82f6; /* blue-600 */
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #3b82f6; /* blue-600 */
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Selected state for rating buttons in Review/Feedback views */
+.rating-btn.selected,
+.feedback-rating-btn.selected {
+    background-color: #3b82f6; /* blue-600 */
+    color: white;
+    border-color: #3b82f6; /* blue-600 */
+    font-weight: 600; /* font-semibold */
+}
+
+/* --- New Fade-in on Scroll Animation --- */
+
+/* Hide the element by default */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    /* Define the transition */
+    transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* The state when it becomes visible */
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- New Project Health Check-in Modal Styles --- */
+
+.modal-overlay {
+    /* "display: none" is still handled by .view class */
+    position: fixed; /* Stays in place */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Dark semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.6);
+    
+    /* Center the content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+
+    /* Use the same backdrop filter for a consistent "glass" feel */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    /* High z-index to be on top */
+    z-index: 100;
+
+    /* Animation */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Override the .view[style*="display: block"] to use flex */
+.modal-overlay[style*="display: block"] {
+    display: flex !important;
+    opacity: 1;
+}
+
+.modal-content-wrapper {
+    /* This is the white card */
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem; /* rounded-xl */
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 42rem; /* max-w-2xl */
+    
+    /* For scrolling on small screens */
+    max-height: 90vh;
+    overflow-y: auto;
+
+    /* Animation */
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+/* When the modal becomes visible */
+.modal-overlay[style*="display: block"] .modal-content-wrapper {
+    transform: scale(1);
+}
+
+
+/* Selected state for rating buttons */
+.health-rating-btn.selected {
+    background-color: #3b82f6; /* blue-600 */
+    color: white;
+    border-color: #3b82f6; /* blue-600 */
+    font-weight: 600; /* font-semibold */
+}
+
+/* --- New Match Card Styles --- */
+
+/* The main card/button */
+.match-card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb; /* gray-200 */
+    border-radius: 0.75rem; /* rounded-lg */
+    padding: 1rem;
+    margin-bottom: 0.75rem; /* space between cards */
+    text-align: left;
+    
+    /* Slick shadow & transition */
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Interactive hover state */
+.match-card:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.07);
+    border-color: #dbeafe; /* blue-100 */
+    cursor: pointer;
+}
+
+/* Icon container */
+.match-card-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem; /* 48px */
+    height: 3rem; /* 48px */
+    border-radius: 9999px; /* rounded-full */
+    margin-right: 1rem;
+}
+
+.match-card-icon.person {
+    background-color: #e0f2fe; /* light blue bg */
+    color: #0284c7; /* blue-700 */
+}
+
+.match-card-icon.project {
+    background-color: #eef2ff; /* light indigo bg */
+    color: #4f46e5; /* indigo-600 */
+}
+
+/* SVG icon styling */
+.match-card-icon svg {
+    width: 1.5rem; /* 24px */
+    height: 1.5rem; /* 24px */
+}
+
+/* Text content */
+.match-card-content {
+    flex-grow: 1;
+}
+
+.match-card-title {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 600; /* font-semibold */
+    color: #1f2937; /* gray-800 */
+}
+
+.match-card-subtitle {
+    font-size: 0.875rem; /* text-sm */
+    color: #6b7280; /* gray-500 */
+}
+
+/* Fit score badge */
+.match-card-score {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: 1rem;
+}
+
+.match-card-score .score-value {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700; /* font-bold */
+    color: #16a34a; /* green-600 */
+}
+
+.match-card-score .score-label {
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 500;
+    color: #6b7280; /* gray-500 */
+    text-transform: uppercase;
+}
+
+/* --- New Project Wizard Styles --- */
+.wizard-step {
+    display: none; /* Hide all steps by default */
+}
+
+.wizard-step.active {
+    display: block; /* Show the active step */
+}
+
+#project-wizard-progress {
+    width: 100%;
+}
+
+.wizard-step-indicator {
+    flex-grow: 1;
+    height: 6px;
+    background-color: #e5e7eb; /* gray-200 */
+    border-radius: 99px;
+    transition: background-color 0.3s ease;
+}
+
+.wizard-step-indicator.active {
+    background-color: #3b82f6; /* blue-600 */
+}
+
+/* --- Dashboard Styling --- */
+.dashboard-section {
+    margin-bottom: 2rem;
+    background-color: #f8fafc; /* bg-slate-50 */
+    border: 1px solid #e2e8f0; /* bg-slate-200 */
+    border-radius: 0.75rem; /* rounded-lg */
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.03);
+}
+
+.dashboard-section h2 {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 600; /* font-semibold */
+    color: #1f2937; /* gray-800 */
+    border-bottom: 1px solid #e2e8f0; /* bg-slate-200 */
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+/* Style for the "My Mentor" card */
+#my-mentor-card {
+    background: linear-gradient(to right, #e0f2fe, #dbeafe); /* blue-50 to indigo-50 */
+    border: 1px solid #dbeafe;
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+}
+
+#my-mentor-card .mentor-name {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 600; /* font-semibold */
+    color: #1e3a8a; /* blue-900 */
+}
+
+/* Remove default list styles from match lists */
+#my-mentees-list,
+#dashboard-projects-list,
+#active-challenges-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* Removed invalid 'divide-y' property (Tailwind utility) */
+}
