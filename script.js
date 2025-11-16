@@ -460,16 +460,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // --- End of New Scroll Logic ---
 
-
-    // View 20: Project Health Check-in
-    const projectHealthModal = document.getElementById('project-health-modal');
-    const projectHealthForm = document.getElementById('project-health-form');
-    const healthCheckRatingButtons = document.getElementById('health-check-rating-buttons');
-    const healthCheckFitRatingInput = document.getElementById('health-check-fit-rating');
-    const submitHealthCheckBtn = document.getElementById('submit-health-check-btn');
-    const skipHealthCheckBtn = document.getElementById('skip-health-check-btn'); 
-
-
     // --- NEW: Landing Page Scroll-Spy Logic ---
     const landingSections = document.querySelectorAll('.landing-section');
     const navLinks = document.querySelectorAll('.nav-link');

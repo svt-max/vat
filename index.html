@@ -5,26 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortefor Mentorship Platform</title>
     
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Load Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- Load Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Load Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- Load Custom Script (defer ensures it runs after HTML is parsed) -->
     <script src="script.js" defer></script>
 </head>
 <body class="">
 
-    <!-- Landing Page (Visible by default) -->
     <main id="landing-page" class="landing-page">
-        <!-- Navigation Bar -->
         <nav class="bg-white shadow-sm sticky top-0 z-50">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
@@ -32,10 +25,6 @@
                         <h1 class="text-2xl font-bold text-blue-600">Fortefor</h1>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <!-- 
-                          MODIFICATION: Added 'nav-link' class and specific IDs to each link
-                          for the scroll-spy functionality.
-                        -->
                         <a id="nav-problem" href="#problem" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">The Problem</a>
                         <a id="nav-insight" href="#insight" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">The Insight</a>
                         <a id="nav-solution" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">The Solution</a>
@@ -49,7 +38,6 @@
             </div>
         </nav>
 
-        <!-- Hero Section -->
         <header class="bg-white fade-in">
             <div class="max-w-6xl mx-auto py-24 px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -66,12 +54,6 @@
             </div>
         </header>
 
-        <!-- 
-          MODIFICATION: Added 'landing-section' class to each section
-          for the scroll-spy IntersectionObserver.
-        -->
-        
-        <!-- Section 1: The Problem -->
         <section id="problem" class="landing-section py-20 bg-gray-50 fade-in">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
@@ -95,7 +77,6 @@
             </div>
         </section>
 
-        <!-- Section 2: The Insight -->
         <section id="insight" class="landing-section py-20 bg-white fade-in">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="lg:grid lg:grid-cols-3 lg:gap-8 lg:items-center">
@@ -123,7 +104,6 @@
             </div>
         </section>
 
-        <!-- Section 3: The Solution (and the Kicker) -->
         <section id="solution" class="landing-section py-20 bg-gray-50 fade-in">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
@@ -164,10 +144,8 @@
     </main>
     
 
-    <!-- Main Application Container (Hidden by default) -->
     <div id="app-container" class="bg-white w-full p-8 rounded-xl shadow-lg">
 
-        <!-- View 0: Role Selection -->
         <div id="role-selection-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Fortefor</h1>
@@ -187,14 +165,61 @@
             </button>
         </div>
 
-        <!-- View 0b: mentor-mentee select -->
+        <div id="welcome-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Discover Your Professional Superpower.</h1>
+                <h1 class="text-3xl font-bold text-gray-800">Ordinary Creatives, Extraordinary Impact.</h1>
+            </header>
+            
+            <p class="text-center text-gray-700 mb-4 text-lg">Stop guessing. We use science to find your perfect project, team, and mentor.</p>
+            <p class="text-center text-gray-700 mb-8 text-lg">In 10 minutes, you'll receive a detailed personal report on your work style.</p>
+            
+            <p class="text-center text-gray-500 text-sm mb-8">Powered by validated science from Talent Data Labs.</p>
+
+            <div class="space-y-4">
+                <button id="start-fit-discovery-btn" class="w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg">
+                    Start My 'Fit' Discovery
+                </button>
+            </div>
+
+            <button type="button" class="back-to-role w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-8">
+                &larr; Go Back
+            </button>
+        </div>
+
+        <div id="define-path-view" class="view">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Define Your Path</h1>
+                <p class="text-lg text-gray-600 mt-2">Choose an onboarding path that matches your immediate goals.</p>
+            </header>
+            
+            <div class="space-y-4">
+                <button id="path-discover" data-path="discover" class="path-btn w-full bg-gray-200 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm hover:bg-gray-300 transition duration-300 text-lg text-left">
+                    <span class="font-bold">Discover Myself</span>
+                    <span class="block text-sm font-normal">I just want my personal 'Holistic Fit' report. See your personality and cultural drivers.</span>
+                </button>
+                <button id="path-grow" data-path="grow" class="path-btn w-full bg-gray-200 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm hover:bg-gray-300 transition duration-300 text-lg text-left">
+                    <span class="font-bold">Grow & Connect</span>
+                    <span class="block text-sm font-normal">I want my report and want to find an optimal mentor or mentee to guide my career.</span>
+                </button>
+                <button id="path-find-fit" data-path="find-fit" class="path-btn w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg text-left">
+                    <span class="font-bold">Find My Fit (Recommended)</span>
+                    <span class="block text-sm font-normal">I'm all in. Give me my report, find me a mentor, and match me to high-fit projects, teams, and challenges.</span>
+                </button>
+            </div>
+
+            <button type="button" class="back-to-role w-full text-gray-600 py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 mt-8">
+                &larr; Go Back
+            </button>
+        </div>
+
         <div id="mentor-mentee-select-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Welcome to the Community</h1>
                 <p class="text-lg text-gray-600 mt-2">Let's define your journey.</p>
             </header>
             
-            [cite_start]<p class="text-center text-gray-700 mb-8 text-lg">What is your primary goal on the Fortefor platform? [cite: 99, 112]</p>
+            <p class="text-center text-gray-700 mb-8 text-lg">What is your primary goal on the Fortefor platform?</p>
             
             <div class="space-y-4">
                 <button id="select-find-mentor" class="w-full bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg">
@@ -213,7 +238,6 @@
             </button>
         </div>
 
-        <!-- View 0c: Mentee Goals Selection -->
         <div id="mentee-goals-view" class="view">
             <header class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800">What are your goals?</h2>
@@ -257,7 +281,6 @@
             </form>
         </div>
 
-        <!-- View 0d: Mentor Focus Selection -->
         <div id="mentor-focus-view" class="view">
             <header class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800">How can you help?</h2>
@@ -300,7 +323,6 @@
                 </button>
             </form>
         </div>
-        <!-- View 0e: Logistics / Availability Selection -->
         <div id="logistics-availability-view" class="view">
             <header class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800">Set your availability</h2>
@@ -350,7 +372,6 @@
             </form>
         </div>
 
-        <!-- View 0f: Work Values Assessment -->
         <div id="work-values-assessment-view" class="view">
             <header class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800">Your Ideal Work Environment</h2>
@@ -382,14 +403,13 @@
             </div>
         </div>
 
-        <!-- View 1: Registration -->
         <div id="register-view" class="view">
             <header class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800">Fortefor</h1>
-                <p class="text-lg text-gray-600 mt-2">Mentor & Mentee Matching Platform</p>
+                <h1 class="text-3xl font-bold text-gray-800">Create Your Profile</h1>
+                <p class="text-lg text-gray-600 mt-2">Let's get started with some basic info.</p>
             </header>
             
-            <p class="text-gray-700 mb-6">Welcome! To find your ideal mentor or mentee, we need to learn more about your work style. Let's start with a quick assessment.</p>
+            <p class="text-gray-700 mb-6">This will be used to create your profile and save your assessment results.</p>
             
             <form id="register-form">
                 <div class="mb-4">
@@ -409,31 +429,21 @@
             </form>
         </div>
 
-        <!-- View 2: Assessment -->
         <div id="assessment-view" class="view">
             <header class="mb-8">
-                <h2 class="text-2xl font-bold text-gray-800">Talent Assessment</h2>
+                <h2 class="text-2xl font-bold text-gray-800">Holistic Fit Assessment: Personality</h2>
                 <p class="text-gray-600" id="progress-text">Question 1 of 5</p>
-                <!-- Progress Bar -->
                 <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
                     <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 20%"></div>
                 </div>
             </header>
             
             <div id="question-container">
-                <!-- Question will be injected here -->
                 <p class="text-lg font-medium text-gray-900 mb-6" id="question-text"></p>
                 
-                <!-- Scales (Answers) will be injected here -->
                 <form id="assessment-form">
                     <div id="scales-container" class="space-y-4">
-                        <!-- Example: 
-                        <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
-                            <input type="radio" name="answer" value="1" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                            <span class="ml-3 text-gray-700">Completely Disagree</span>
-                        </label>
-                        -->
-                    </div>
+                        </div>
                     <p id="answer-error" class="text-red-500 text-sm mt-4" style="display: none;">Please select an answer.</p>
                     <button type="submit" id="next-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-8">
                         Next
@@ -442,42 +452,34 @@
             </div>
         </div>
 
-        <!-- View 3: Loading -->
         <div id="loading-view" class="view flex-col items-center justify-center h-64">
             <div class="loader"></div>
             <p class="text-lg text-gray-700 mt-6">Analyzing your results...</p>
             <p class="text-gray-600">Matching you with projects and people.</p>
         </div>
 
-        <!-- View 4: Results -->
         <div id="results-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800" id="results-header">Welcome, Jane!</h1>
                 <p class="text-lg text-gray-600 mt-2">Here are your recommended matches.</p>
             </header>
 
-            <!-- Recommended Projects -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Recommended Projects</h2>
                 <ul id="projects-list" class="divide-y divide-gray-200">
-                    <!-- Projects injected here -->
-                </ul>
+                    </ul>
             </div>
             
-            <!-- Recommended Mentors -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Potential Mentors</h2>
                 <ul id="mentors-list" class="divide-y divide-gray-200">
-                    <!-- Mentors injected here -->
-                </ul>
+                    </ul>
             </div>
 
-            <!-- Recommended Mentees -->
             <div>
                 <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Potential Mentees</h2>
                 <ul id="mentees-list" class="divide-y divide-gray-200">
-                    <!-- Mentees injected here -->
-                </ul>
+                    </ul>
             </div>
 
             <button id="view-insights-button" class="w-full bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300 mt-12">
@@ -488,7 +490,6 @@
             </button>
         </div>
 
-        <!-- View 5: Company Login -->
         <div id="company-login-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Company Portal</h1>
@@ -513,7 +514,6 @@
             </form>
         </div>
 
-        <!-- View 5b: Company Culture Start -->
         <div id="company-culture-start-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Define Your Culture</h1>
@@ -524,7 +524,7 @@
                 Before you post a project, we need to understand your company's work style. Is your environment rigid or agile? Creative or structured? 
             </p>
             <p class="text-gray-700 mb-8 text-lg">
-                This 5-minute assessment will create a **Company Culture Profile**. We use this profile to match you with freelancers who will thrive in your specific environment, ensuring a better fit and project outcome. [cite: 91, 303, 305]
+                This 5-minute assessment will create a **Company Culture Profile**. We use this profile to match you with freelancers who will thrive in your specific environment, ensuring a better fit and project outcome.
             </p>
             
             <form id="company-culture-start-form">
@@ -574,8 +574,7 @@
                     (Test) Trigger Project Health Check
                 </button>
             </div>
-            <!--dashboard view -->
-<div id="client-dashboard-content" style="display: none;">
+            <div id="client-dashboard-content" style="display: none;">
                 <header class="mb-8">
                     <h1 class="text-3xl font-bold text-gray-800" id="client-welcome">Acme Inc. Dashboard</h1>
                     <p class="text-lg text-gray-600 mt-2">Manage your challenges and find expert talent.</p>
@@ -601,7 +600,6 @@
             </button>
         </div>
 
-        <!-- View 6: Project Management Workspace -->
         <div id="pm-workspace-view" class="view">
             <header class="mb-6 border-b pb-4">
                 <h1 class="text-3xl font-bold text-gray-800" id="pm-project-title">Global E-commerce Platform</h1>
@@ -686,8 +684,7 @@
             </button>
         </div>
         
-        <!-- View 6: Project Creation -->
-<div id="project-create-view" class="view">
+        <div id="project-create-view" class="view">
             <header class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800">Post a New Challenge</h2>
                 <p class="text-gray-600">This guided wizard will find your perfect fit.</p>
@@ -748,20 +745,20 @@
 
                 <div class="wizard-step" data-step="3">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Step 3: Project Personality</h3>
-                    [cite_start]<p class="text-gray-600 mb-4">What kind of person will succeed in this project? [cite: 356]</p>
+                    <p class="text-gray-600 mb-4">What kind of person will succeed in this project?</p>
                     <div class="space-y-4 mb-6">
                         <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
                             <input type="radio" name="project-personality" value="innovator" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
                             <div class="ml-4">
                                 <span class="text-gray-800 font-medium">A "Blue-Sky" Innovator</span>
-                                [cite_start]<p class="text-sm text-gray-600">Someone who thrives on ambiguity and loves creative freedom. [cite: 358]</p>
+                                <p class="text-sm text-gray-600">Someone who thrives on ambiguity and loves creative freedom.</p>
                             </div>
                         </label>
                         <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
                             <input type="radio" name="project-personality" value="executor" class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500" required>
                             <div class="ml-4">
                                 <span class="text-gray-800 font-medium">A Meticulous "Executor"</span>
-                                [cite_start]<p class="text-sm text-gray-600">Someone who follows instructions perfectly for a rigid, well-defined task. [cite: 358]</p>
+                                <p class="text-sm text-gray-600">Someone who follows instructions perfectly for a rigid, well-defined task.</p>
                             </div>
                         </label>
                         <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
@@ -788,7 +785,6 @@
             </form>
         </div>
 
-        <!-- View 7: Project Review -->
         <div id="project-review-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Project Complete!</h1>
@@ -838,7 +834,6 @@
             </form>
         </div>
 
-        <!-- View 8: Mentor Feedback -->
         <div id="mentor-feedback-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Mentorship Check-in</h1>
@@ -881,34 +876,28 @@
             </form>
         </div>
 
-        <!-- View 7: Company Loading -->
         <div id="company-loading-view" class="view flex-col items-center justify-center h-64">
             <div class="loader"></div>
             <p class="text-lg text-gray-700 mt-6">Finding talent for your project...</p>
             <p class="text-gray-600">Analyzing profiles for the best fit.</p>
         </div>
 
-        <!-- View 8: Company Results -->
         <div id="company-results-view" class="view">
             <header class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-800" id="company-results-header">Project Matches</h1>
                 <p class="text-lg text-gray-600 mt-2" id="company-project-details">Here are the best matches for "Global E-commerce Platform".</p>
             </header>
 
-            <!-- Recommended Team (Conditional) -->
             <div id="team-results-container" class="mb-8" style="display: none;">
                 <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Recommended Team</h2>
                 <ul id="team-list" class="divide-y divide-gray-200">
-                    <!-- Team injected here -->
-                </ul>
+                    </ul>
             </div>
 
-            <!-- Recommended Individuals -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Recommended Individuals</h2>
                 <ul id="talent-list" class="divide-y divide-gray-200">
-                    <!-- Talent injected here -->
-                </ul>
+                    </ul>
             </div>
             
             <button id="new-project-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 mt-8">
@@ -919,14 +908,12 @@
             </button>
         </div>
 
-        <!-- View 9: Personal Insights Report -->
         <div id="insights-view" class="view">
             <header class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800">Your Personal Insights</h1>
+                <h1 class="text-3xl font-bold text-gray-800">Your 'Holistic Fit' Report</h1>
                 <p class="text-lg text-gray-600 mt-2">Here's what we learned about your work style.</p>
             </header>
 
-            <!-- Personality Radar Chart -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Personality Profile</h2>
                 <div class="p-4 border rounded-lg bg-gray-50">
@@ -934,17 +921,14 @@
                 </div>
             </div>
             
-            <!-- Key Insights -->
             <div>
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Key Insights</h2>
                 <div class="space-y-4">
-                    <!-- Remote Fit Score (from slide 15) -->
                     <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                         <p class="text-lg font-medium text-blue-800">Remote Fit Score</p>
                         <p class="text-3xl font-bold text-blue-600" id="remote-fit-score">91%</p>
                         <p class="text-blue-700 mt-1">You are highly suited for remote work and can thrive in an out-of-office environment.</p>
                     </div>
-                    <!-- Top Trait -->
                     <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
                         <p class="text-lg font-medium text-green-800">Your Top Trait</p>
                         <p class="text-3xl font-bold text-green-600" id="top-trait-name">Openness</p>
@@ -961,14 +945,12 @@
             </button>
         </div>
 
-        <!-- View 10: 1-on-1 Comparison Report -->
         <div id="comparison-view" class="view">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800" id="comparison-header">Comparison Report</h1>
                 <p class="text-lg text-gray-600 mt-2" id="comparison-subheader">User 1 vs. User 2</p>
             </header>
 
-            <!-- Comparison Radar Chart -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Personality Comparison</h2>
                 <div class="p-4 border rounded-lg bg-gray-50">
@@ -976,17 +958,14 @@
                 </div>
             </div>
             
-            <!-- Teamsight Scores -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Teamsight Scores</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Convergent Fit -->
                     <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                         <p class="text-lg font-medium text-blue-800">Convergent Fit (Similarity)</p>
                         <p class="text-3xl font-bold text-blue-600" id="convergent-score">20%</p>
                         <p class="text-blue-700 mt-1" id="convergent-desc">Direct collaboration, mentorship, and simultaneous work on similar tasks.</p>
                     </div>
-                    <!-- Divergent Fit -->
                     <div class="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                         <p class="text-lg font-medium text-purple-800">Divergent Fit (Complementary)</p>
                         <p class="text-3xl font-bold text-purple-600" id="divergent-score">66%</p>
@@ -995,12 +974,10 @@
                 </div>
             </div>
 
-            <!-- Trait-by-Trait Analysis -->
             <div>
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Trait Analysis</h2>
                 <div id="trait-analysis-container" class="space-y-6">
-                    <!-- Analysis will be injected here -->
-                </div>
+                    </div>
             </div>
 
             <button id="back-to-matches-button" class="w-full bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300 mt-12">
@@ -1008,8 +985,7 @@
             </button>
         </div>
         
-    </div> <!-- End Main Application Container -->
-    <div id="project-health-modal" class="view modal-overlay">
+    </div> <div id="project-health-modal" class="view modal-overlay">
             <div class="modal-content-wrapper">
                 <header class="text-center mb-6">
                     <h1 class="text-3xl font-bold text-gray-800">Project Health Check-in</h1>
